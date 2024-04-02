@@ -58,3 +58,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.isort]
 profile = "black"
+
+[tool.pylint]
+disable = 'C3001'
+max-line-length = 140
