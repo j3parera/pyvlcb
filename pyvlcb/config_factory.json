@@ -1,8 +1,8 @@
 {
     "settings": {
-        "MODE": 255,
+        "MODE": 1,
         "CAN_ID": 0,
-        "NODE_NUMBER": 0,
+        "NODE_NUMBER": 120,
         "NODE_FLAGS": 0,
         "RESET_FLAG": 0
     },
