@@ -1,0 +1,25 @@
+{
+    "settings": {
+        "MODE": 255,
+        "CAN_ID": 0,
+        "NODE_NUMBER": 65535,
+        "NODE_FLAGS": 0,
+        "RESET_FLAG": 0
+    },
+    "node_vars": {
+        "NV1": 15,
+        "NV2": 252,
+        "NV3": 123,
+        "NV4": 33,
+        "NV5": 12
+    },
+    "events": {
+        "consumed": {
+            "111:222": [
+                1,
+                2
+            ]
+        },
+        "produced": {}
+    }
+}

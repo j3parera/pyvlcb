@@ -2,21 +2,38 @@
 """Tests for `pyvlcb` package."""
 # pylint: disable=redefined-outer-name
 
-import pytest
+
+from json import dump, load
+
+from pyvlcb import pyvlcb as vlcb
 
 
-@pytest.fixture
-def response():
-    """Sample pytest fixture.
-
-    See more at: http://doc.pytest.org/en/latest/fixture.html
+class TestConfiguration:
     """
-    # import requests
-    # return requests.get('https://github.com/audreyr/cookiecutter-pypackage')
+    Configuration tests
+    """
 
+    filename = "pyvlcb/config.json"
 
-def test_content(response):
-    """Sample pytest test function with the pytest fixture as an argument."""
-    # from bs4 import BeautifulSoup
-    # assert 'GitHub' in BeautifulSoup(response.content).title.string
-    del response
+    def test_init(self):
+        """
+        Constructor test
+        """
+        config = vlcb.Configuration(self.filename)
+        assert config is not None
+
+    def test_factory(self):
+        """
+        Begin test
+        """
+        filename = "pyvlcb/config_factory.json"
+        with open(filename, "rt", encoding="utf-8") as f:
+            data = load(f)
+        data["settings"]["MODE"] = 0xFF
+        data["settings"]["NODE_NUMBER"] = 0xFFFF
+        with open(filename, "wt", encoding="utf-8") as f:
+            dump(data, f)
+        config = vlcb.Configuration(filename)
+        config.begin()
+        assert config.current_mode == vlcb.Modes.MODE_UNINITIALISED
+        assert config.node_number == 0

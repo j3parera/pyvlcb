@@ -1,0 +1,11 @@
+{
+    "settings": {
+        "MODE": 255,
+        "CAN_ID": 0,
+        "NODE_NUMBER": 0,
+        "NODE_FLAGS": 0,
+        "RESET_FLAG": 0
+    },
+    "node_vars": {},
+    "events": {}
+}
