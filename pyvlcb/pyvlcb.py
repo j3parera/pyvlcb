@@ -209,23 +209,12 @@ class Configuration(ABC):
         self._save_nonvolatile_mem()
 
 
-#   byte findExistingEvent(unsigned int nn, unsigned int en);
 #   byte findExistingEventByEv(byte evnum, byte evval);
-
 #   byte getEventEVval(byte idx, byte evnum);
 #   void writeEventEV(byte idx, byte evnum, byte evval);
 
-
 #   byte readNV(byte idx);
 #   void writeNV(byte idx, byte val);
-
-#   void setModuleUninitializedMode();
-#   void setModuleNormalMode(unsigned int nodeNumber);
-
-#   static bool nnenEquals(const byte lhs[EE_HASH_BYTES], const byte rhs[EE_HASH_BYTES]);
-
-
-#   void setModuleMode(VlcbModeParams m);
 
 
 class Service(ABC):
