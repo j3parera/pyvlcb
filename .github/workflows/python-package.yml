@@ -29,7 +29,6 @@ jobs:
             - name: Update Poetry
               run: poetry lock --no-update
             - name: Install dependencies 1
-              if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
               run: poetry install --no-interaction --no-root
             - name: Install dependencies 2
               run: |
