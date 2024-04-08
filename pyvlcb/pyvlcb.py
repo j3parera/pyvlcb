@@ -152,15 +152,15 @@ class Configuration(ABC):
 
     def _event_key(self, idx) -> str:
         # pylint: disable=R0201
-        return f"{idx:03d}"
+        return f"EVT{idx:03d}"
 
     @property
     def num_events(self) -> int:
         """Number of events."""
         return len(self._nonvolatile_mem["events"])
 
-    def read_event(self, idx) -> Event | None:
-        """Read an stored event."""
+    def read_event(self, idx: int) -> Event | None:
+        """Read a stored event."""
         try:
             evt_key = self._event_key(idx)
             data = self._nonvolatile_mem["events"][evt_key]
@@ -179,7 +179,7 @@ class Configuration(ABC):
         self._nonvolatile_mem["events"][evt_key]["EVENT_VARS"] = event.event_vars
         self._save_nonvolatile_mem()
 
-    def clear_event(self, idx) -> None:
+    def clear_event(self, idx: int) -> None:
         """Clear an event."""
         evt_key = self._event_key(idx)
         try:
@@ -203,18 +203,43 @@ class Configuration(ABC):
         self._nonvolatile_mem["events"] = {}
         self._save_nonvolatile_mem()
 
+    def _node_var_key(self, idx: int) -> str:
+        # pylint: disable=R0201
+        return f"NV{idx:03d}"
+
+    @property
+    def num_node_vars(self) -> int:
+        """Number of node_vars."""
+        return len(self._nonvolatile_mem["node_vars"])
+
+    def read_node_var(self, idx: int) -> int | None:
+        """Read a stored node variable."""
+        try:
+            nv_key = self._node_var_key(idx)
+            data = self._nonvolatile_mem["node_vars"][nv_key]
+            return int(data)
+        except KeyError:
+            return None
+
+    def write_node_var(self, idx: int, val: int) -> None:
+        """Write a node variable."""
+        nv_key = self._node_var_key(idx)
+        self._nonvolatile_mem["node_vars"][nv_key] = val
+        self._save_nonvolatile_mem()
+
+    def clear_node_var(self, idx: int) -> None:
+        """Clear a node variable."""
+        nv_key = self._node_var_key(idx)
+        try:
+            del self._nonvolatile_mem["node_vars"][nv_key]
+            self._save_nonvolatile_mem()
+        except KeyError:
+            pass
+
     def clear_all_node_vars(self):
         """Clear all node vars data."""
         self._nonvolatile_mem["node_vars"] = {}
         self._save_nonvolatile_mem()
-
-
-#   byte findExistingEventByEv(byte evnum, byte evval);
-#   byte getEventEVval(byte idx, byte evnum);
-#   void writeEventEV(byte idx, byte evnum, byte evval);
-
-#   byte readNV(byte idx);
-#   void writeNV(byte idx, byte val);
 
 
 class Service(ABC):

@@ -39,6 +39,21 @@ class TestConfiguration:
         assert config.node_number == 0
         assert config.heartbeat is False
 
+    def test_modes(self):
+        """
+        Module modes test.
+        """
+        # pylint: disable=R0201
+        filename = "pyvlcb/config_factory.json"
+        config = vlcb.Configuration(filename)
+        config.node_number = 123
+        config.set_mode(vlcb.Mode.UNINITIALISED)
+        assert config.mode == vlcb.Mode.UNINITIALISED
+        assert config.node_number == 0
+        config.set_mode(vlcb.Mode.NORMAL, node_number=120)
+        assert config.mode == vlcb.Mode.NORMAL
+        assert config.node_number == 120
+
     def test_events(self):
         """
         Event configuration handling test.
@@ -57,7 +72,7 @@ class TestConfiguration:
         assert config.num_events == 1
         config.write_event(2, vlcb.Event(102, 202, [12, 22, 32]))
         assert config.num_events == 2
-        config.write_event(1, vlcb.Event(101, 201, [11, 21, 31]))
+        config.write_event(1, vlcb.Event(101, 201, [11, 21]))
         assert config.num_events == 3
         evt = config.find_event(102, 202)
         assert evt is not None
@@ -71,17 +86,25 @@ class TestConfiguration:
         assert config.read_event(3) is None
         assert config.clear_event(3) is None
 
-    def test_modes(self):
+    def test_node_vars(self):
         """
-        Module modes test.
+        Node variables configuration handling test.
         """
         # pylint: disable=R0201
         filename = "pyvlcb/config_factory.json"
         config = vlcb.Configuration(filename)
-        config.node_number = 123
-        config.set_mode(vlcb.Mode.UNINITIALISED)
-        assert config.mode == vlcb.Mode.UNINITIALISED
-        assert config.node_number == 0
-        config.set_mode(vlcb.Mode.NORMAL, node_number=120)
-        assert config.mode == vlcb.Mode.NORMAL
-        assert config.node_number == 120
+        assert config.num_node_vars == 0
+        config.write_node_var(0, 100)
+        assert config.num_node_vars == 1
+        assert config.read_node_var(0) == 100
+        assert config.num_node_vars == 1
+        config.write_node_var(2, 102)
+        assert config.num_node_vars == 2
+        config.write_node_var(1, 101)
+        assert config.num_node_vars == 3
+        config.clear_node_var(2)
+        assert config.num_node_vars == 2
+        config.clear_all_node_vars()
+        assert config.num_events == 0
+        assert config.read_node_var(3) is None
+        assert config.clear_node_var(3) is None
