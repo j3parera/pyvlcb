@@ -105,6 +105,6 @@ class TestConfiguration:
         config.clear_node_var(2)
         assert config.num_node_vars == 2
         config.clear_all_node_vars()
-        assert config.num_events == 0
+        assert config.num_node_vars == 0
         assert config.read_node_var(3) is None
         assert config.clear_node_var(3) is None
