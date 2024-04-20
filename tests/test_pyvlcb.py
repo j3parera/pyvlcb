@@ -108,3 +108,46 @@ class TestConfiguration:
         assert config.num_node_vars == 0
         assert config.read_node_var(3) is None
         assert config.clear_node_var(3) is None
+
+
+class TestMinimumNodeService:
+    """
+    Minimum node service tests.
+    """
+
+    def test_unitialized(self):
+        pass
+
+    # testUninitializedRequestNodeNumber();
+    # testUninitializedRequestNodeNumberMissingSNN();
+    # testNormalRequestNodeNumber();
+    # testNormalRequestNodeNumberMissingSNN();
+    # testReleaseNodeNumberByUI();
+    # testRequestNodeNumberElsewhere();
+    # testSetNodeNumber();
+    # testSetNodeNumberNormal();
+    # testSetNodeNumberShort();
+    # testQueryNodeNumber();
+    # testReadNodeParametersNormalMode();
+    # testReadNodeParametersSetupMode();
+    # testReadNodeParameterCount();
+    # testReadNodeParameterModuleId();
+    # testReadNodeParameterInvalidIndex();
+    # testReadNodeParameterShortMessage();
+    # testModuleNameSetup();
+    # testModuleNameLearn();
+    # testModuleNameNormal();
+    # testHeartBeat();
+    # testServiceDiscovery();
+    # testServiceDiscoveryLongMessageSvc();
+    # testServiceDiscoveryIndexOutOfBand();
+    # testServiceDiscoveryIndexForUI();
+    # testServiceDiscoveryShortMessage();
+    # testModeUninitializedToSetup();
+    # testModeSetupToNormal();
+    # testModeSetupToUnininitialized();
+    # testModeNormalToSetup();
+    # testModeUninitializedToOtherThanSetup();
+    # testModeSetupToOtherThanNormal();
+    # testModeNormalToNormal();
+    # testModeShortMessage();

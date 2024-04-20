@@ -2,7 +2,7 @@
 Main module.
 """
 
-from abc import ABC, abstractmethod
+from abc import ABC
 from ctypes import LittleEndianStructure, Union, c_uint8
 from dataclasses import dataclass
 from enum import Enum
@@ -150,7 +150,7 @@ class Configuration(ABC):
         # pylint: disable=C0103
         self.node_flags.heartbeat = int(on)
 
-    def _event_key(self, idx) -> str:
+    def _event_key(self, idx: int) -> str:
         # pylint: disable=R0201
         return f"EVT{idx:03d}"
 
@@ -240,59 +240,3 @@ class Configuration(ABC):
         """Clear all node vars data."""
         self._nonvolatile_mem["node_vars"] = {}
         self._save_nonvolatile_mem()
-
-
-class Service(ABC):
-    """
-    Abstract Service class.
-    """
-
-    def set_controller(self, _controller) -> None:
-        """
-        Set a reference to the controller object in the implementing class.
-
-        Args:
-            _controller (_type_): controlleer object.
-        """
-
-    def begin(self) -> None:
-        """
-        Do any setup required at the beginning.
-        """
-
-    @abstractmethod
-    def get_service_id(self) -> bytes:
-        """
-        Return a unique ID for this service.
-
-        Returns:
-            bytes: the unique ID for this service.
-        """
-        raise NotImplementedError
-
-    @abstractmethod
-    def get_service_version_id(self) -> bytes:
-        """
-        Return the version of the implementation of this service.
-
-        Returns:
-            bytes: the version of the implementation of this service.
-        """
-        raise NotImplementedError
-
-    @abstractmethod
-    def process(self, _action) -> None:
-        """
-        Process an action.
-
-        Args:
-            _action (_type_): action to be performed. Could be None.
-        """
-        raise NotImplementedError
-
-
-class MinimumNodeService(Service):
-    """
-    Handles the OP-codes for managing nodes.
-    It is required for use in a VLCB module.
-    """
