@@ -3,7 +3,7 @@
 #
 
 try:
-    from micropython import const
+    from micropython import const  # type: ignore
 except ImportError:
     const = lambda x: x
 

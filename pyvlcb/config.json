@@ -1,5 +1,9 @@
 {
     "settings": {
+        "MANUFACTURER_ID": 0,
+        "MODULE_ID": 0,
+        "MODULE_NAME": "",
+        "VERSION": "0.0.0",
         "MODE": 255,
         "CAN_ID": 0,
         "NODE_NUMBER": 0,

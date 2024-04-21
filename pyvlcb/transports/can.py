@@ -2,7 +2,7 @@
 CAN Transport based on python-can package.
 """
 
-from typing import Any
+from typing import Any, Optional
 from can import (
     Bus,
     Notifier,
@@ -15,6 +15,8 @@ from can import (
 from can.exceptions import CanOperationError
 from can.interfaces.serial.serial_can import SerialBus
 from .transport import Transport
+
+BITRATE = 125000
 
 
 class CanTransport(Transport):
@@ -73,11 +75,11 @@ class CanTransport(Transport):
         """
         return not self._buf_reader.buffer.empty()
 
-    def recv(self, timeout: int = 0) -> Message | None:
+    def recv(self, timeout: Optional[float] = 0.0) -> Optional[Message]:
         """
         Return the first message in the RX queue.
         """
-        return self._buf_reader.get_message(timeout)
+        return self._buf_reader.get_message(timeout)  # type: ignore
 
     def send(self, msg: Message, timeout: int = 0) -> bool:
         """
@@ -99,7 +101,7 @@ class CanTransportOverSerial(CanTransport):
 
     def __init__(self, device: str, **kwargs: Any) -> None:
         super().__init__(**kwargs)
-        self._bus = SerialBus(device)
+        self._bus = SerialBus(device, bitrate=BITRATE)
 
 
 class CanTransportOverSocketcan(CanTransport):
@@ -109,6 +111,20 @@ class CanTransportOverSocketcan(CanTransport):
 
     def __init__(self, channel: str, **kwargs: Any) -> None:
         self._bus: BusABC = Bus(
-            interface="socketcan", channel=channel, receive_own_messages=True
+            interface="socketcan",
+            channel=channel,
+            bitrate=BITRATE,
+        )
+        super().__init__(**kwargs)
+
+
+class CanTransportOverVirtual(CanTransport):
+    """
+    Can transport using socketcan.
+    """
+
+    def __init__(self, **kwargs: Any) -> None:
+        self._bus: BusABC = Bus(
+            "test", interface="virtual", bitrate=BITRATE, receive_own_messages=True
         )
         super().__init__(**kwargs)

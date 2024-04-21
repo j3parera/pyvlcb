@@ -10,21 +10,9 @@ class Service(ABC):
     Abstract Service class.
     """
 
-    def set_controller(self, _controller) -> None:
-        """
-        Set a reference to the controller object in the implementing class.
-
-        Args:
-            _controller (_type_): controlleer object.
-        """
-
-    def begin(self) -> None:
-        """
-        Do any setup required at the beginning.
-        """
-
+    @property
     @abstractmethod
-    def get_service_id(self) -> bytes:
+    def service_id(self) -> int:
         """
         Return a unique ID for this service.
 
@@ -33,13 +21,21 @@ class Service(ABC):
         """
         raise NotImplementedError
 
+    @property
     @abstractmethod
-    def get_service_version_id(self) -> bytes:
+    def service_version_id(self) -> int:
         """
         Return the version of the implementation of this service.
 
         Returns:
             bytes: the version of the implementation of this service.
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def begin(self) -> None:
+        """
+        Do any setup required at the beginning.
         """
         raise NotImplementedError
 
@@ -52,10 +48,3 @@ class Service(ABC):
             _action (_type_): action to be performed. Could be None.
         """
         raise NotImplementedError
-
-
-class MinimumNodeService(Service):
-    """
-    Handles the OP-codes for managing nodes.
-    It is required for use in a VLCB module.
-    """

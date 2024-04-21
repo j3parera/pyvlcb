@@ -5,7 +5,7 @@
 
 from json import dump, load
 
-from pyvlcb import pyvlcb as vlcb
+from pyvlcb.modules.config import Configuration, Mode, Event
 
 
 class TestConfiguration:
@@ -19,7 +19,7 @@ class TestConfiguration:
         """
         Constructor test
         """
-        config = vlcb.Configuration(self.filename)
+        config = Configuration(self.filename)
         assert config is not None
 
     def test_factory(self):
@@ -34,8 +34,8 @@ class TestConfiguration:
         data["settings"]["NODE_NUMBER"] = 0xFFFF
         with open(filename, "wt", encoding="utf-8") as file:
             dump(data, file)
-        config = vlcb.Configuration(filename)
-        assert config.mode == vlcb.Mode.UNINITIALISED
+        config = Configuration(filename)
+        assert config.mode == Mode.UNINITIALISED
         assert config.node_number == 0
         assert config.heartbeat is False
 
@@ -45,13 +45,13 @@ class TestConfiguration:
         """
         # pylint: disable=R0201
         filename = "pyvlcb/config_factory.json"
-        config = vlcb.Configuration(filename)
+        config = Configuration(filename)
         config.node_number = 123
-        config.set_mode(vlcb.Mode.UNINITIALISED)
-        assert config.mode == vlcb.Mode.UNINITIALISED
+        config.set_mode(Mode.UNINITIALISED)
+        assert config.mode == Mode.UNINITIALISED
         assert config.node_number == 0
-        config.set_mode(vlcb.Mode.NORMAL, node_number=120)
-        assert config.mode == vlcb.Mode.NORMAL
+        config.set_mode(Mode.NORMAL, node_number=120)
+        assert config.mode == Mode.NORMAL
         assert config.node_number == 120
 
     def test_events(self):
@@ -60,19 +60,19 @@ class TestConfiguration:
         """
         # pylint: disable=R0201
         filename = "pyvlcb/config_factory.json"
-        config = vlcb.Configuration(filename)
+        config = Configuration(filename)
         assert config.num_events == 0
         assert config.find_event(12, 34) is None
-        config.write_event(0, vlcb.Event(100, 200, [10, 20, 30]))
+        config.write_event(0, Event(100, 200, [10, 20, 30]))
         assert config.num_events == 1
         evt = config.read_event(0)
         assert evt.node_number == 100
         assert evt.event_number == 200
         assert evt.event_vars == [10, 20, 30]
         assert config.num_events == 1
-        config.write_event(2, vlcb.Event(102, 202, [12, 22, 32]))
+        config.write_event(2, Event(102, 202, [12, 22, 32]))
         assert config.num_events == 2
-        config.write_event(1, vlcb.Event(101, 201, [11, 21]))
+        config.write_event(1, Event(101, 201, [11, 21]))
         assert config.num_events == 3
         evt = config.find_event(102, 202)
         assert evt is not None
@@ -92,7 +92,7 @@ class TestConfiguration:
         """
         # pylint: disable=R0201
         filename = "pyvlcb/config_factory.json"
-        config = vlcb.Configuration(filename)
+        config = Configuration(filename)
         assert config.num_node_vars == 0
         config.write_node_var(0, 100)
         assert config.num_node_vars == 1
@@ -110,44 +110,44 @@ class TestConfiguration:
         assert config.clear_node_var(3) is None
 
 
-class TestMinimumNodeService:
-    """
-    Minimum node service tests.
-    """
+# class TestMinimumNodeService:
+#     """
+#     Minimum node service tests.
+#     """
 
-    def test_unitialized(self):
-        pass
+#     def test_unitialized(self):
+#         pass
 
-    # testUninitializedRequestNodeNumber();
-    # testUninitializedRequestNodeNumberMissingSNN();
-    # testNormalRequestNodeNumber();
-    # testNormalRequestNodeNumberMissingSNN();
-    # testReleaseNodeNumberByUI();
-    # testRequestNodeNumberElsewhere();
-    # testSetNodeNumber();
-    # testSetNodeNumberNormal();
-    # testSetNodeNumberShort();
-    # testQueryNodeNumber();
-    # testReadNodeParametersNormalMode();
-    # testReadNodeParametersSetupMode();
-    # testReadNodeParameterCount();
-    # testReadNodeParameterModuleId();
-    # testReadNodeParameterInvalidIndex();
-    # testReadNodeParameterShortMessage();
-    # testModuleNameSetup();
-    # testModuleNameLearn();
-    # testModuleNameNormal();
-    # testHeartBeat();
-    # testServiceDiscovery();
-    # testServiceDiscoveryLongMessageSvc();
-    # testServiceDiscoveryIndexOutOfBand();
-    # testServiceDiscoveryIndexForUI();
-    # testServiceDiscoveryShortMessage();
-    # testModeUninitializedToSetup();
-    # testModeSetupToNormal();
-    # testModeSetupToUnininitialized();
-    # testModeNormalToSetup();
-    # testModeUninitializedToOtherThanSetup();
-    # testModeSetupToOtherThanNormal();
-    # testModeNormalToNormal();
-    # testModeShortMessage();
+# testUninitializedRequestNodeNumber();
+# testUninitializedRequestNodeNumberMissingSNN();
+# testNormalRequestNodeNumber();
+# testNormalRequestNodeNumberMissingSNN();
+# testReleaseNodeNumberByUI();
+# testRequestNodeNumberElsewhere();
+# testSetNodeNumber();
+# testSetNodeNumberNormal();
+# testSetNodeNumberShort();
+# testQueryNodeNumber();
+# testReadNodeParametersNormalMode();
+# testReadNodeParametersSetupMode();
+# testReadNodeParameterCount();
+# testReadNodeParameterModuleId();
+# testReadNodeParameterInvalidIndex();
+# testReadNodeParameterShortMessage();
+# testModuleNameSetup();
+# testModuleNameLearn();
+# testModuleNameNormal();
+# testHeartBeat();
+# testServiceDiscovery();
+# testServiceDiscoveryLongMessageSvc();
+# testServiceDiscoveryIndexOutOfBand();
+# testServiceDiscoveryIndexForUI();
+# testServiceDiscoveryShortMessage();
+# testModeUninitializedToSetup();
+# testModeSetupToNormal();
+# testModeSetupToUnininitialized();
+# testModeNormalToSetup();
+# testModeUninitializedToOtherThanSetup();
+# testModeSetupToOtherThanNormal();
+# testModeNormalToNormal();
+# testModeShortMessage();
