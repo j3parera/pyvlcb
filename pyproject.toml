@@ -22,7 +22,8 @@ packages = [{ include = "pyvlcb" }, { include = "tests", format = "sdist" }]
 
 
 [tool.poetry.dependencies]
-python = ">=3.7,<4"
+python = ">=3.8,<4"
+python-can = "^4.3.1"
 
 [tool.poetry.dev-dependencies]
 bump-my-version = "*"
