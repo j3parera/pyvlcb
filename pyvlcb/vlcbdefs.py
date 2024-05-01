@@ -498,6 +498,7 @@ PF_NORMAL = const(4)  # Module is in Normal mode (VLCB)
 PF_BOOT = const(8)  # Module supports the FCU bootloader protocol
 PF_COE = const(16)  # Module can consume its own events
 PF_LRN = const(32)  # Module is in learn mode
+PF_VLCB = const(64)  # Module is VLCB compatible
 PF_SD = const(64)  # Module supports Service Discovery
 #
 # Parameters to the MODE op-code
@@ -574,3 +575,4 @@ P32MX795F512 = const(38)  #
 ARM1176JZF_S = const(1)  # As used in Raspberry Pi
 ARMCortex_A7 = const(2)  # As Used in Raspberry Pi 2
 ARMCortex_A53 = const(3)  # As used in Raspberry Pi 3
+ARMCortex_A72 = const(4)  # As used in Raspberry Pi 4
