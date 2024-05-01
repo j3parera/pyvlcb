@@ -2,6 +2,7 @@
 TODO
 """
 
+from enum import Enum
 from typing import Any
 from ctypes import c_uint16, LittleEndianStructure, Union
 from can import Message
@@ -10,8 +11,35 @@ from ..transports.can import CanTransport
 from ..vlcbdefs import SERVICE_ID_CAN
 
 SERVICE_VERSION_ID = 1
-DEFAULT_MINOR_PRIORITY = 0b11
-DEFAULT_MAJOR_PRIORITY = 0b10
+
+
+# ----- CAN Header -----------------------------------------------------------------------------------------------------
+class MajorPriority(Enum):
+    """Major priority of a CAN frame. Occuppies bits 10 and 9 of the CAN frame."""
+
+    #: Emergency priority (highest).
+    EMERGENCY = 0
+    #: High priority.
+    HIGH = 1
+    #: Normal priority (lowest).
+    NORMAL = 2
+
+
+class MinorPriority(Enum):
+    """Minor priority of a CAN frame. Occuppies bits 8 and 7 of the CAN frame."""
+
+    #: High pripority (highest).
+    HIGH = 0
+    #: Above normal priority.
+    ABOVE_NORMAL = 1
+    #: Normal priority.
+    NORMAL = 2
+    #: Low priority (lowest).
+    LOW = 3
+
+
+DEFAULT_MINOR_PRIORITY = MinorPriority.LOW
+DEFAULT_MAJOR_PRIORITY = MajorPriority.NORMAL
 
 
 class _CanHeaderIdBits(LittleEndianStructure):
@@ -50,8 +78,8 @@ class CanService(Service):
     def _make_header_id(
         self,
         can_id: int,
-        minor_pri: int = DEFAULT_MINOR_PRIORITY,
-        major_pri: int = DEFAULT_MAJOR_PRIORITY,
+        minor_pri: int = DEFAULT_MINOR_PRIORITY.value,
+        major_pri: int = DEFAULT_MAJOR_PRIORITY.value,
     ) -> int:
         header = CanHeaderId()
         header.f.can_id = can_id
