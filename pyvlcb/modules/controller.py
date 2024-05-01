@@ -3,7 +3,7 @@ TODO
 """
 
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Sequence
 from os import PathLike
 from json import load
 from ..services.service import Service
@@ -15,8 +15,10 @@ class Controller(ABC):
     Abstract Controller class.
     """
 
-    def __init__(self, services: List[Service], config_file: str | PathLike) -> None:
-        self._services: List[Service] = services
+    def __init__(
+        self, services: Sequence[Service], config_file: str | PathLike
+    ) -> None:
+        self._services: Sequence[Service] = services
         self._config = Configuration(config_file)
         with open(config_file, "rt", encoding="utf-8") as file:
             settings = load(file)["settings"]
@@ -65,7 +67,7 @@ class Controller(ABC):
         self._config.can_id = can_id
 
     @property
-    def services(self) -> List[Service]:
+    def services(self) -> Sequence[Service]:
         """
         The services that the module implements.
         """
