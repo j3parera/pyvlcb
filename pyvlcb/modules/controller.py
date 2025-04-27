@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod
 from typing import List, Sequence
 from os import PathLike
 from json import load
-from ..services.service import Service
+from pyvlcb.services.service import Service
 from .config import Configuration
 
 

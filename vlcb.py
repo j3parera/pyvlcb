@@ -1,11 +1,18 @@
-""" Prueba."""
+"""Prueba."""
 
 from time import sleep
+
 from pyvlcb.modules.controller import Controller
 from pyvlcb.services.serialui import ConsoleUIService
 
 
 class KK(Controller):
+    """
+    _summary_
+
+    Args:
+        Controller (_type_): _description_
+    """
 
     def __init__(self):
         super().__init__([ConsoleUIService()], "pyvlcb/config.json")
