@@ -5,6 +5,12 @@ TODO Service
 from abc import ABC, abstractmethod
 
 
+class Action:
+    """
+    TODO
+    """
+
+
 class Service(ABC):
     """
     Abstract Service class.
@@ -40,7 +46,7 @@ class Service(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def process(self, _action) -> None:
+    def process(self, action: Action | None) -> None:
         """
         Process an action.
 
